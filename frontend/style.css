@@ -1,0 +1,1375 @@
+/* Container */
+.container {
+  width: auto;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+}
+
+/* ===================== FIRST SECTION ===================== */
+/* ===================== FIRST SECTION ===================== */
+.top-section {
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  box-sizing: border-box;
+  padding-block: clamp(10px, 1vh, 48px);
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* nav | hero | cue */
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  /* easy-to-tune tokens */
+  --nav-side-gap: clamp(12px, 3vw, 48px);
+  --nav-max: 1700px;
+  --nav-height: clamp(56px, 6.2vh, 88px);
+}
+
+/* Backgrounds / glow / grain */
+.top-section::before {
+  content: "";
+  position: absolute;
+  inset: -12% -6% -8%;
+  z-index: -1;
+  background: radial-gradient(
+      1200px 800px at 12% 9%,
+      rgba(255, 255, 255, 0.06),
+      transparent 60%
+    ),
+    radial-gradient(
+      1000px 700px at 88% 12%,
+      rgba(255, 255, 255, 0.05),
+      transparent 62%
+    ),
+    radial-gradient(
+      1600px 900px at 50% 115%,
+      rgba(0, 0, 0, 0.35),
+      transparent 55%
+    ),
+    linear-gradient(180deg, #0c0f14 0%, #0b0e12 50%, #0a0d11 100%);
+  filter: blur(12px);
+}
+.top-section::after {
+  content: "";
+  position: absolute;
+  inset: -20% -10%;
+  z-index: -1;
+  background: radial-gradient(
+      34% 28% at 78% 18%,
+      rgba(255, 255, 255, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      32% 26% at 22% 72%,
+      rgba(255, 255, 255, 0.08),
+      transparent 65%
+    ),
+    radial-gradient(
+      30% 30% at 55% 8%,
+      rgba(255, 255, 255, 0.06),
+      transparent 60%
+    );
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+  filter: saturate(0);
+}
+@keyframes aurora-drift {
+  from {
+    transform: translate3d(-2%, -1%, 0) rotate(0.2deg);
+  }
+  to {
+    transform: translate3d(2%, 1%, 0) rotate(-0.2deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .top-section::after {
+    animation: none;
+  }
+}
+
+.top-section .grain {
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#n)" opacity=".04"/></svg>');
+  mix-blend-mode: soft-light;
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+/* ---------------- NAV ---------------- */
+.nav {
+  width: min(var(--nav-max), calc(100vw - 2 * var(--nav-side-gap)));
+  min-height: var(--nav-height);
+  justify-self: center;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  background: #0f1115;
+  color: #e9eef6;
+  border-radius: clamp(12px, 1.6vw, 22px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 10px 24px rgba(0, 0, 0, 0.22),
+    0 40px 80px -24px rgba(0, 0, 0, 0.35);
+  padding-inline: clamp(10px, 1.6vw, 28px);
+
+  position: sticky;
+  top: clamp(8px, 1.5vh, 14px);
+  z-index: 100;
+}
+.name {
+  grid-column: 2;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "Gilda Display", serif;
+}
+.name p {
+  margin: 0;
+  font-size: clamp(0.85rem, 0.6rem + 0.4vw, 1.05rem);
+  letter-spacing: 0.08em;
+}
+.navbar {
+  grid-column: 3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  row-gap: 6px;
+  column-gap: clamp(2px, 0.6vw, 8px);
+}
+.navbar a {
+  color: #e9eef6;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-family: "Gilda Display", serif;
+  font-size: clamp(0.78rem, 0.55rem + 0.3vw, 0.95rem);
+  letter-spacing: 0.06em;
+  padding-block: clamp(4px, 0.5vh, 8px);
+  padding-inline: clamp(10px, 1.2vw, 20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.14);
+}
+.navbar a:last-child {
+  border-right: none;
+}
+
+/* ---------------- HERO ----------------
+   Grid trick: one column sized to the H1's width (max-content),
+   centered. Paragraph + buttons align to that column's left edge. */
+.hero {
+  color: #fff;
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--nav-side-gap));
+  margin-inline: auto;
+  padding: 0;
+
+  display: grid;
+  grid-template-columns: max-content;
+  grid-auto-rows: max-content;
+  justify-content: center; /* center the column */
+  align-content: center; /* center vertically */
+  row-gap: clamp(16px, 3vh, 28px);
+
+  min-height: calc(100% - 140px);
+  position: relative;
+}
+.hero > * {
+  grid-column: 1;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  left: clamp(48px, 7vw, 140px);
+  top: clamp(-20px, -1.5vw, -8px);
+  width: clamp(420px, 62vw, 980px);
+  height: clamp(120px, 18vw, 280px);
+  background: radial-gradient(
+      60% 100% at 20% 70%,
+      rgba(255, 255, 255, 0.1),
+      transparent 65%
+    ),
+    radial-gradient(
+      40% 80% at 80% 40%,
+      rgba(255, 255, 255, 0.06),
+      transparent 70%
+    );
+  filter: blur(22px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* H1 + staircase */
+.hero h1 {
+  margin: 0;
+  text-transform: uppercase;
+  font-family: "Gilda Display", serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 7.5vw, 5rem);
+  line-height: 1.2;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 10px 40px rgba(0, 0, 0, 0.55);
+  justify-self: center; /* center inside the column */
+}
+.hero h1 .line {
+  display: block;
+}
+.hero h1 .second {
+  margin-left: clamp(56px, 6vw, 120px);
+  white-space: nowrap;
+}
+.hero h1 .third {
+  margin-left: clamp(220px, 22.5vw, 482.5px);
+}
+
+/* Paragraph + buttons share the H1 left edge */
+.hero p {
+  font-family: "Sansation", sans-serif;
+  font-size: clamp(1.1rem, 2.1vw, 1.45rem);
+  font-weight: 300;
+  max-width: 60ch;
+  margin: 0;
+  justify-self: start; /* ← left edge of the H1 column */
+  text-align: left;
+}
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  width: fit-content;
+  justify-self: start; /* ← same left edge */
+  margin: 0;
+}
+#button1,
+#button2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Sansation", sans-serif;
+  font-size: 16px;
+  border: none;
+  padding: 8px 12px;
+}
+#button1 {
+  background: green;
+  color: #fff;
+  border-radius: 20px;
+}
+#button2 {
+  background: lightgray;
+  color: #000;
+  border-radius: 15px;
+}
+.material-symbols-outlined {
+  font-size: 20px;
+}
+
+/* Hover + keyboard focus (show feedback) */
+#button1:hover,
+#button1:focus-visible {
+  background: #1e7e34; /* a bit darker green */
+  box-shadow: 0 6px 16px rgba(0, 128, 0, 0.35);
+  transform: translateY(-1px);
+}
+
+#button2:hover,
+#button2:focus-visible {
+  background: #e5e7eb; /* a touch darker than lightgray */
+  color: #111;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Scroll cue */
+.scroll-cue {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #e9eef6;
+  text-decoration: none;
+  font-family: "Sansation", sans-serif;
+  font-size: clamp(0.65rem, 1.1vw, 0.8rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  transition: opacity 0.2s, transform 0.2s, border-color 0.2s;
+  animation: cue-float 2.2s ease-in-out infinite;
+  z-index: 2;
+}
+.scroll-cue::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  margin-top: 2px;
+  opacity: 0.9;
+}
+@keyframes cue-float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Phones: center the stack and remove the staircase */
+@media (max-width: 700px) {
+  .hero {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+  .hero p,
+  .hero-buttons {
+    justify-self: center;
+    text-align: center;
+  }
+  .hero h1 .second,
+  .hero h1 .third {
+    margin-left: 0;
+    white-space: normal;
+  }
+}
+
+/* Ultra-wide tuning (optional) */
+@media (min-width: 1800px) {
+  .top-section {
+    --nav-max: 2400px;
+    --nav-side-gap: clamp(12px, 1.6vw, 32px);
+  }
+  .hero h1 {
+    font-size: 7.2rem;
+    line-height: 1.1;
+  }
+  .hero p {
+    font-size: 2rem;
+  }
+  #button1,
+  #button2 {
+    font-size: 19px;
+    padding: 14px 20px;
+  }
+  .material-symbols-outlined {
+    font-size: 24px;
+  }
+}
+
+/* 
+Second section of the website! 
+*/
+/* 
+Second section of the website (responsive marquee + works + preview)
+*/
+.second-section {
+  background: #fff;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  box-sizing: border-box;
+  padding: clamp(56px, 7vw, 120px) 0;
+  padding-top: clamp(16px, 4.5vw, 48px);
+  overflow-y: auto;
+}
+
+/* Wide container — no vw overflow, padding included in width */
+.works {
+  width: 100%;
+  max-width: 2300px; /* your upper bound */
+  margin-inline: auto;
+  padding-inline: clamp(12px, 3vw, 36px);
+  position: relative;
+  box-sizing: border-box; /* ← critical to avoid overshoot */
+  overflow-x: clip; /* avoids 1px rounding scrollbars on some setups */
+  isolation: isolate;
+}
+
+/* ===== Quote / Marquee ===== */
+
+/* visually hidden heading for SRs */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.quote-box {
+  background: #0f1115;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: clamp(10px, 1.2vw, 18px);
+  padding-left: clamp(16px, 3vw, 32px);
+  padding-right: clamp(16px, 3vw, 32px);
+  overflow: hidden; /* clip inside rounded corners */
+  position: relative;
+  z-index: 4;
+  margin: 0;
+}
+
+/* Marquee track */
+.marquee {
+  --gap: clamp(16px, 2.5vw, 40px);
+  --dur: 12s; /* increase to slow it down */
+  --track: 100%;
+  position: relative;
+  width: 100%;
+  height: clamp(40px, 5.2vw, 68px); /* tall enough so glyphs don’t clip */
+  overflow: hidden;
+  container-type: inline-size;
+
+  /* subtle edge fade so the text never looks chopped at sides */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 28px,
+    #000 calc(100% - 28px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 28px,
+    #000 calc(100% - 28px),
+    transparent 100%
+  );
+}
+
+/* Scope the type size INSIDE the marquee (overrides global .tw) */
+.marquee .tw {
+  font-family: "Gilda Display", serif;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  font-size: clamp(18px, 2.4vw, 32px);
+  line-height: 1.2;
+}
+
+@supports (width: 1cqw) {
+  .marquee {
+    --track: 100cqw;
+  }
+}
+
+/* One scrolling line (duplicate for seamless loop) */
+.marquee__item {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-100%, -50%);
+  white-space: nowrap;
+  padding-inline: var(--gap);
+  will-change: transform;
+  animation: marquee-x var(--dur) linear infinite both;
+}
+.marquee__item--b {
+  animation-delay: calc(var(--dur) * 0.5);
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translate(-100%, -50%);
+  }
+  to {
+    transform: translate(var(--track), -50%);
+  }
+}
+
+/* UX niceties */
+.marquee:hover .marquee__item {
+  animation-play-state: paused;
+}
+.marquee .marquee__item {
+  animation-play-state: paused;
+}
+.marquee.run .marquee__item {
+  animation-play-state: running;
+}
+
+/* Reduced motion: static centered line */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    height: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+    text-align: center;
+  }
+  .marquee__item {
+    position: static;
+    transform: none;
+    animation: none !important;
+    white-space: normal;
+    padding: 0;
+  }
+  .marquee__item--b {
+    display: none;
+  }
+}
+
+/* Extra small screens: also use static to guarantee no overflow */
+@media (max-width: 560px) {
+  .marquee {
+    height: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+    text-align: center;
+  }
+  .marquee__item {
+    position: static;
+    transform: none;
+    animation: none;
+    white-space: normal;
+    padding: 0;
+  }
+  .marquee__item--b {
+    display: none;
+  }
+}
+
+/* ===== Works ===== */
+.works_title {
+  position: relative; /* change this to sticky if u want it to move, but there is a bug */
+  top: 0;
+  z-index: 5;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-top: clamp(28px, 3.8vw, 56px);
+  padding-bottom: clamp(28px, 3.8vw, 56px);
+  text-align: center;
+  font-family: "Gilda Display", serif;
+  font-weight: 550;
+  letter-spacing: 0.08em;
+  font-size: clamp(2.5rem, 4vw, 3.75rem);
+  background: #fff;
+  border-bottom: 2px solid gray;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 0.6rem;
+}
+
+.works_title .work-arrow {
+  font-size: 1em;
+  line-height: 1;
+}
+
+.works__list {
+  border-top: 1px solid #eee;
+}
+
+/* Rows: name | cta | meta */
+.work {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-template-areas: "name cta meta";
+  align-items: center;
+  gap: clamp(18px, 3vw, 40px);
+  padding-block: clamp(22px, 3.2vw, 40px);
+  text-decoration: none;
+  color: #0a0d11;
+  border-bottom: 2px solid gray;
+  transition: background 0.25s ease, color 0.25s ease;
+  position: relative;
+}
+.work__name {
+  grid-area: name;
+  font-family: "Gilda Display", serif;
+  font-size: clamp(1.35rem, 2.6vw, 2.05rem);
+}
+.work__cta {
+  grid-area: cta;
+  justify-self: start;
+  border: 1px solid currentColor;
+  padding: 0.55rem 1.35rem;
+  border-radius: 999px;
+  font-family: "Sansation", sans-serif;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  opacity: 0.85;
+}
+.work__meta {
+  grid-area: meta;
+  justify-self: end;
+  color: #6b7280;
+  font-family: "Sansation", sans-serif;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+}
+
+/* Hover */
+.work:hover {
+  background: #0f1115;
+  color: #e9eef6;
+}
+.work:hover .work__meta {
+  color: #cfd8e3;
+}
+.work:hover .work__cta {
+  background: #e9eef6;
+  color: #0f1115;
+  border-color: transparent;
+}
+
+/* Floating preview */
+/* Floating preview — fully responsive to both width & height */
+/* Floating preview — smaller by default and capped by height */
+.works__preview {
+  /* center */
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+
+  /* responsive size */
+  --preview-x-gap: clamp(12px, 3vw, 28px); /* safe horizontal margin */
+  --preview-y-gap: clamp(12px, 6vh, 56px); /* safe vertical margin */
+
+  aspect-ratio: 16 / 10;
+
+  /* ↓↓↓ KEY: smaller targets */
+  width: min(48vw, 880px); /* was 64vw / 1100px */
+  max-width: calc(100vw - 2 * var(--preview-x-gap));
+
+  /* cap by viewport height so it never feels huge on short screens */
+  max-height: min(56vh, calc(100svh - 2 * var(--preview-y-gap)));
+  height: auto; /* let aspect-ratio drive */
+
+  background: #000 center / cover no-repeat;
+  border-radius: clamp(14px, 2vw, 24px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18),
+    0 80px 200px -28px rgba(0, 0, 0, 0.45);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.works__preview.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Laptop-ish widths — a touch smaller */
+@media (max-width: 1440px) {
+  .works__preview {
+    width: min(44vw, 760px);
+    max-height: 52vh;
+  }
+}
+
+/* Big desktops — don’t let it dominate */
+@media (min-width: 1800px) {
+  .works__preview {
+    width: min(42vw, 900px);
+    max-height: 50vh;
+  }
+}
+
+/* Keep hiding on phones, if you want */
+@media (max-width: 920px) {
+  .works__preview {
+    display: none;
+  }
+}
+
+/* 
+Third section of the website! 
+*/
+
+.third-section,
+.third-section *,
+.third-section *::before,
+.third-section *::after {
+  box-sizing: border-box;
+}
+
+.third-section {
+  background: #0a0d11;
+  padding: clamp(24px, 4vw, 56px) 5vw;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 24px);
+  align-items: start;
+}
+
+/* three vertical columns */
+.first-part,
+.middle-part,
+.end-part {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 2vw, 24px);
+  min-width: 0; /* allow shrinking inside the grid track */
+}
+
+/* every card fills its column */
+.photo-self,
+.time-box,
+.about-hero,
+.hard-skills-box,
+.socials-box,
+.soft-skills-box,
+.language-box {
+  width: 100%;
+  max-width: none;
+  border-radius: 18px;
+  min-width: 0;
+}
+
+/* --- Photo --- */
+.photo-self {
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+}
+.photo-self img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --- Clock --- */
+.time-box {
+  background: #000;
+  color: #e9eef6;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  padding: clamp(12px, 2vw, 20px);
+  min-height: clamp(160px, 22vw, 220px);
+}
+.time-display {
+  font-size: clamp(2rem, 6vw, 3.75rem);
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+.time-caption {
+  margin-top: clamp(8px, 1.5vw, 16px);
+  font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+  opacity: 0.7;
+}
+
+/* --- About --- */
+.about-hero {
+  background: #0f1115;
+  color: #e9eef6;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 12px 24px rgba(0, 0, 0, 0.2),
+    0 40px 80px -24px rgba(0, 0, 0, 0.35);
+  padding: clamp(20px, 3vw, 48px);
+  padding-top: 0;
+}
+.second-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.second-title {
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "Gilda Display", serif;
+  font-weight: 100;
+  font-size: clamp(0.9rem, 2.25vw, 1.5rem);
+  margin: 0 0 0.5rem 0;
+}
+.about-hero p {
+  font-family: "Sansation", sans-serif;
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.15rem);
+  font-weight: 300;
+  margin: 0;
+  max-width: 55ch;
+  color: #cfd8e3;
+}
+
+/* --- Middle two-up (Hard skills + Socials) --- */
+.hor-middle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: inherit;
+  min-width: 0;
+}
+.hor-middle > * {
+  min-width: 0;
+  max-width: 100%;
+} /* cards can shrink */
+
+/* Hard skills */
+.hard-skills-box {
+  background: #5d49ad;
+  color: #e9eef6;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 12px 24px rgba(0, 0, 0, 0.2),
+    0 40px 80px -24px rgba(0, 0, 0, 0.35);
+  padding: clamp(10px, 1.5vw, 24px);
+  padding-top: 0;
+  text-align: center;
+}
+.skills-title {
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "Gilda Display", serif;
+  font-weight: 100;
+  font-size: clamp(0.9rem, 2.25vw, 1.5rem);
+  margin: 0 0 0.5rem 0;
+  white-space: normal; /* don’t force long single lines */
+}
+.hard-skills-box ul {
+  margin: 0;
+  margin-left: clamp(20px, 2vw, 24px);
+  padding: 0;
+  font-family: "Sansation", sans-serif;
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.15rem);
+  font-weight: 300;
+  color: #cfd8e3;
+  text-align: left;
+}
+
+/* Socials (ensure it stays on top if cards get close) */
+.socials-box {
+  background: #0f1115;
+  color: #e9eef6;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 12px 24px rgba(0, 0, 0, 0.2),
+    0 40px 80px -24px rgba(0, 0, 0, 0.35);
+  padding: clamp(20px, 3vw, 48px);
+  position: relative;
+  z-index: 2;
+}
+.socials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(96px, 1fr));
+  gap: clamp(10px, 1.5vw, 16px);
+  height: 100%;
+  align-content: center;
+  justify-content: center;
+}
+.social-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  background: #0b0e12;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e9eef6;
+  transition: transform 0.18s ease, background 0.18s ease,
+    border-color 0.18s ease;
+  text-decoration: none;
+}
+.social-tile:hover {
+  transform: translateY(-2px);
+  background: #151a22;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.social-tile svg {
+  width: clamp(24px, 3vw, 34px);
+  height: auto;
+  display: block;
+}
+.social-tile.linkedin {
+  color: #0a66c2;
+}
+.social-tile.github {
+  color: #ffffff;
+}
+.social-tile.instagram {
+  color: #ffffff;
+}
+.social-tile.email {
+  color: #22c55e;
+}
+
+/* --- Right column cards (slimmer width) --- */
+.end-part {
+  align-items: flex-start;
+}
+
+.soft-skills-box,
+.language-box {
+  background: #0f1115;
+  color: #e9eef6;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 12px 24px rgba(0, 0, 0, 0.2),
+    0 40px 80px -24px rgba(0, 0, 0, 0.35);
+  padding: clamp(20px, 3vw, 48px);
+  width: min(560px, 100%); /* narrower so there isn’t unused space */
+  padding-top: 0;
+}
+.soft-skills-box ul,
+.language-box ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: "Sansation", sans-serif;
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.15rem);
+  color: #cfd8e3;
+}
+.language-title {
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "Gilda Display", serif;
+  font-weight: 100;
+  font-size: clamp(0.9rem, 2.25vw, 1.5rem);
+  margin: 0 0 0.5rem 0;
+  white-space: normal;
+}
+
+/* Grow the right cards a touch on ultra-wide screens */
+@media (min-width: 1600px) {
+  .soft-skills-box,
+  .language-box {
+    width: min(600px, 100%);
+  }
+}
+
+/* reveal-on-scroll inside third section: fade only (no translate) */
+.third-section .reveal-right {
+  opacity: 0;
+  transform: none !important;
+  margin-top: clamp(8px, 2vh, 16px);
+  transition: margin-top 700ms ease, opacity 700ms ease;
+}
+.third-section .reveal-right.in-view {
+  opacity: 1;
+  margin-top: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .third-section .reveal-right {
+    opacity: 1;
+    margin-top: 0;
+    transition: none;
+  }
+}
+
+/* --- Responsive columns --- */
+@media (max-width: 1200px) {
+  .third-section {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 800px) {
+  .third-section {
+    grid-template-columns: 1fr;
+  }
+  .hor-middle {
+    grid-template-columns: 1fr;
+  } /* stack hard skills above socials */
+}
+
+/* Ultra-wide screens: shrink the portrait further so the clock rises */
+@media (min-width: 1500px) {
+  .photo-self {
+    width: auto; /* allow height cap to drive size */
+    max-width: 100%;
+    max-height: 52vh; /* was 60vh – smaller = clock higher */
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1700px) {
+  .photo-self {
+    max-height: 46vh;
+  }
+}
+
+@media (min-width: 1900px) {
+  .photo-self {
+    max-height: 40vh;
+  }
+}
+
+/* (optional) give a touch less width to the first column on huge screens */
+@media (min-width: 1500px) {
+  .third-section {
+    grid-template-columns: 0.85fr 1.15fr 1fr;
+  }
+}
+/* ================= Laptops & small desktops ================= */
+/* Put this AT THE BOTTOM of your CSS */
+@media (max-width: 1650px){
+  /* Give Hard skills more width than Socials */
+  .hor-middle{
+    grid-template-columns: 1.4fr .6fr;   /* was 1fr 1fr */
+  }
+
+  /* Make Socials card & tiles smaller (no auto stretch) */
+  .socials-box{
+    padding: clamp(12px, 1.6vw, 18px);
+  }
+  .socials-grid{
+    grid-template-columns: repeat(2, auto); /* tiles size themselves */
+    gap: 12px;
+    justify-content: center;
+    align-content: center;
+  }
+  .social-tile{
+    width: clamp(56px, 7vw, 80px);  /* explicit tile size */
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+  }
+  .social-tile svg{
+    width: clamp(18px, 2.2vw, 22px);
+  }
+
+  /* Shorten Hard skills: smaller padding + two-column list */
+  .hard-skills-box{
+    padding: clamp(12px, 1.6vw, 20px);
+  }
+  .hard-skills-box ul{
+    columns: 2;               /* simpler than grid here */
+    column-gap: 16px;
+  }
+  .hard-skills-box li{ break-inside: avoid; } /* keep items intact */
+}
+
+/* If it still feels tall, stack the two cards earlier (not only at 800px) */
+@media (max-width: 1150px){
+  .hor-middle{ grid-template-columns: 1fr; }  /* Hard skills above Socials */
+}
+/* laptops / small desktops */
+@media (max-width: 1650px) and (max-height: 950px){
+  /* give Hard Skills more width than Socials */
+  .hor-middle{ grid-template-columns: 1.4fr .6fr; }
+
+  /* shrink the socials card & tiles */
+  .socials-box{ padding: 12px; }
+  .socials-grid{
+    grid-template-columns: repeat(2, clamp(44px, 4.4vw, 60px)); /* fixed size, no stretching */
+    gap: 10px;
+    justify-content: center;
+    align-content: center;
+  }
+  .social-tile{
+    width: clamp(44px, 4.4vw, 60px);               /* height follows from aspect-ratio: 1/1 */
+    border-radius: 12px;
+  }
+  .social-tile svg{ width: 22px; }
+  
+  /* make the hard-skills box shorter too */
+  .hard-skills-box{ padding: 14px; }
+  .hard-skills-box ul{ columns: 2; column-gap: 18px; }
+  .hard-skills-box li{ break-inside: avoid; }
+}
+
+
+
+
+
+/* Fourth section of the website */
+.fourth-section {
+  background: #fff;
+  padding: clamp(56px, 7vw, 120px) clamp(16px, 3vw, 48px);
+  box-sizing: border-box;
+  position: relative;
+}
+
+.fourth-section::after {
+  content: "";
+  display: block;
+
+  /* solid line */
+  border-bottom: 2px solid #8a8a8a; /* thickness & color */
+
+  /* responsive width with side gaps that match your section padding */
+  width: min(1800px, calc(100% - 2 * clamp(16px, 3vw, 48px)));
+  margin: clamp(48px, 8vw, 112px) auto 0; /* space above, centered */
+}
+
+.services-title {
+  font-family: "Gilda Display", serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+  line-height: 1.12;
+  font-size: clamp(1.125rem, 2.5vw, 2rem);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding-bottom: clamp(24px, 3.6vw, 48px);
+}
+
+/* layout spacing between the three cards */
+.services-heros {
+  display: flex;
+  justify-content: center;
+  gap: clamp(40px, 8vw, 120px);
+  flex-wrap: wrap;
+}
+
+/* the three small titles */
+.services-heros h2 {
+  font-family: "Gilda Display", serif;
+  font-weight: 500; /* similar feel to your hero headings */
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  /* bigger, but still elegant */
+  font-size: clamp(1.5rem, 2.1vw, 2.25rem);
+  color: #0a0d11;
+  margin: 0;
+}
+
+/* the short paragraph under each title */
+.services-heros p {
+  font-family: "Sansation", sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  font-size: clamp(1.125rem, 1.8vw, 1.35rem);
+  color: #111;
+  max-width: 42ch;
+  margin: 0;
+}
+
+/* layout: stack icon → title → text, centered */
+.service-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: clamp(8px, 1.6vw, 14px);
+  flex: 1 1 280px; /* NEW: at least 280px wide, but flexible */
+  max-width: 420px;
+}
+
+/* square icon tile like your social tiles */
+.service-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(44px, 4.8vw, 72px);
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  background: #0b0e12;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  color: #e9eef6; /* default icon color */
+
+  margin-bottom: clamp(12px, 1.8vw, 24px);
+}
+
+/* icon size inside */
+.service-icon .material-symbols-outlined {
+  font-size: clamp(22px, 3vw, 36px);
+  line-height: 1;
+}
+
+/* optional tints per service (like your LinkedIn blue) */
+.icon-web {
+  color: #0a66c2;
+} /* blue */
+.icon-backend {
+  color: #22c55e;
+} /* green */
+.icon-testing {
+  color: #f97316;
+} /* orange */
+
+/* (optional) small screens: a bit more control */
+@media (max-width: 900px) {
+  .service-box {
+    flex: 1 1 320px;
+  }
+}
+
+
+
+
+/* Fifth section of the webstie */
+.fifth-section {
+  background: #fff;
+  /* let the section be at least a viewport tall, but grow if content needs it */
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding-block: clamp(16px, 4vh, 56px);
+  /* side padding → gives that little margin left & right */
+  padding-inline: clamp(16px, 3vw, 48px);
+  padding-bottom: clamp(56px, 7vw, 120px);
+}
+
+/* Column container with two grid rows */
+.contact-grid {
+  width: min(1800px, 100%); /* respect section padding; fill available width */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 28px);
+}
+
+/* Rows */
+.row {
+  display: grid;
+  gap: clamp(16px, 2vw, 28px);
+}
+
+/* Row 1: two wide tiles */
+.row-top {
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+}
+
+/* Row 2: three tiles */
+.row-bottom {
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
+}
+
+/* === Tile base === */
+.tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* generous, but not so huge that it overflows on smaller widths */
+  min-height: clamp(300px, 32vw, 420px);
+  border-radius: clamp(18px, 1.8vw, 28px);
+  padding: clamp(24px, 3.2vw, 44px);
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12), 0 20px 44px rgba(0, 0, 0, 0.16);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+}
+
+/* Tile typography */
+.tile h3 {
+  margin: 0;
+  font-family: "Gilda Display", serif;
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+.tile p {
+  margin: 0;
+  font-family: "Sansation", sans-serif;
+  font-weight: 300;
+  line-height: 1.55;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  display: flex;
+  align-items: center;
+  gap: .45em;   
+}
+
+/* icon sizing & behavior; inherits the text color */
+.tile-link-icon{
+  font-size: 1.2em;    /* a touch larger than the text */
+  line-height: 1;
+  opacity: .9;
+  transition: transform .15s ease, opacity .15s ease;
+}
+
+.tile:hover .tile-link-icon{
+  transform: translate(.15em,-.15em);
+  opacity: 1;
+}
+
+/* Colors (with readable text colors) */
+.yellow {
+  background: #ffe65a;
+  color: #0b0e12;
+}
+.red {
+  background: #ff4b4b;
+  color: #ffffff;
+}
+.green {
+  background: #2e7d62;
+  color: #ffffff;
+}
+.pink {
+  background: #f6a7d8;
+  color: #0b0e12;
+}
+.blue {
+  background: #287bff;
+  color: #ffffff;
+}
+
+
+
+/* ===== Responsive ===== */
+@media (max-width: 1100px) {
+  .row-top {
+    grid-template-columns: repeat(2, 1fr);
+  } /* still two across */
+  .row-bottom {
+    grid-template-columns: repeat(2, 1fr);
+  } /* 2 per row */
+  /* shrink tile heights a bit so the section rarely needs to grow too much */
+  .tile {
+    min-height: clamp(260px, 40vw, 380px);
+  }
+}
+
+@media (max-width: 640px) {
+  .row-top,
+  .row-bottom {
+    grid-template-columns: 1fr;
+  } /* stack single column */
+  .tile {
+    min-height: clamp(240px, 68vw, 360px);
+  }
+}
+
+/* 
+Footer section of the website! 
+*/
+.footer-section {
+  display: grid;
+  grid-template-columns: 100%;
+}
+
+.footer {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.footer-bar {
+  border-bottom: 2px solid gray;
+  width: 75%;
+  height: fit-content;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+.footer-navbar a {
+  color: lightgray;
+  text-transform: uppercase;
+  font-family: "Gilda Display", serif;
+  text-decoration: none;
+  padding-right: 30px;
+}
+
+.footer-bottom p {
+  color: lightgray;
+  font-family: "Sansation", sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  text-decoration: none;
+}
